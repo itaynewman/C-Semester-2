@@ -1,0 +1,15 @@
+Anti-virus began! Welcome!
+
+Folder to scan:
+C:\Users\Cyber_User\Downloads\New folder
+Virus signature file:
+C:\Users\Cyber_User\Documents\Magshimim\C semester 2\Week 8\KittenVirusSign
+
+Scanning option:
+Normal Scan
+
+Results:
+C:\Users\Cyber_User\Downloads\New folder/KittenVirusSign1  Infected!
+C:\Users\Cyber_User\Downloads\New folder/New Text Document.txt  Infected!
+C:\Users\Cyber_User\Downloads\New folder/kitten_frog (1).jpg  Infected!
+C:\Users\Cyber_User\Downloads\New folder/kitten_run (1).jpg  Clean
