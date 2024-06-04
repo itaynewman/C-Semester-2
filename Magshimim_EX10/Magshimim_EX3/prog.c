@@ -2,202 +2,226 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NAME_LENGTH 50
-
 // Define the Person structure
-typedef struct Person {
-    char name[NAME_LENGTH];
+typedef struct Person
+{
+    char name[50];
+    int age;
     struct Person* next;
 } Person;
 
-// Declare global head pointer
-Person* head = NULL;
-
 // Function declarations
-void printQueue();
-void addPerson();
-void removePerson();
-void addVIP();
-void searchPerson();
-void reverseQueue();
-void handleMenu();
+void printQueue(Person* head);
+void addPerson(Person** head, char* name, int age, char friends[][50], int friendsCount);
+void removePerson(Person** head, char* name);
+void addVIP(Person** head, char* name, int age);
+int searchPerson(Person* head, char* name);
+void reverseQueue(Person** head);
 
-int main() {
+int main()
+{
+    Person* head = NULL;
     int choice;
+    char name[50];
+    int age;
+    char friends[3][50];
 
-    while (1) {
-        printf("\nMenu:\n");
-        printf("1. Print the queue and its length\n");
-        printf("2. Add a new person to the queue\n");
-        printf("3. Remove a person from the queue\n");
-        printf("4. Add a VIP to the queue\n");
-        printf("5. Search for a person in the queue\n");
-        printf("6. Reverse the queue\n");
-        printf("7. Exit\n");
-        printf("Enter your choice: ");
+    do
+    {
+        printf("\nWelcome to MagshiParty Line Management Software!\n");
+        printf("Please enter your choice from the following options:\n");
+        printf("1 - Print line\n");
+        printf("2 - Add person to line\n");
+        printf("3 - Remove person from line\n");
+        printf("4 - VIP guest\n");
+        printf("5 - Search in line\n");
+        printf("6 - Reverse line\n");
+        printf("7 - Exit\n");
         scanf("%d", &choice);
 
-        switch (choice) {
+        switch (choice)
+        {
         case 1:
-            printQueue();
+            printQueue(head);
             break;
         case 2:
-            addPerson();
+            printf("Welcome guest!\n");
+            printf("Enter name: ");
+            scanf("%s", name);
+            printf("Enter age: ");
+            scanf("%d", &age);
+            for (int i = 0; i < 3; i++)
+            {
+                printf("Enter names of 3 friends:\n");
+                printf("Friend %d: ", i + 1);
+                scanf("%s", friends[i]);
+            }
+            addPerson(&head, name, age, friends, 3);
             break;
         case 3:
-            removePerson();
+            printf("Enter name to remove:\n");
+            scanf("%s", name);
+            removePerson(&head, name);
             break;
         case 4:
-            addVIP();
+            printf("VIP GUEST!\n");
+            printf("Enter name: ");
+            scanf("%s", name);
+            printf("Enter age: ");
+            scanf("%d", &age);
+            addVIP(&head, name, age);
             break;
         case 5:
-            searchPerson();
+            printf("Enter name to search:\n");
+            scanf("%s", name);
+            if (searchPerson(head, name))
+                printf("%s found in line\n", name);
+            else
+                printf("%s not in line\n", name);
             break;
         case 6:
-            reverseQueue();
+            reverseQueue(&head);
+            printf("Line reversed!\n");
             break;
         case 7:
-            printf("Exiting...\n");
-            exit(0);
+            printf("Goodbye!\n");
+            break;
         default:
-            printf("Invalid choice, please try again.\n");
+            printf("Invalid option. Try again.\n");
         }
-    }
+    } while (choice != 7);
 
     return 0;
 }
 
 // Function definitions
 
-void printQueue() {
-    Person* temp = head;
-    int count = 0;
-    printf("Queue:\n");
-    while (temp != NULL) {
-        printf("%s -> ", temp->name);
-        temp = temp->next;
-        count++;
+// Print the queue and its length
+void printQueue(Person* head)
+{
+    int length = 0;
+    Person* current = head;
+    if (current == NULL)
+    {
+        printf("0 people in line:\n");
     }
-    printf("NULL\n");
-    printf("Queue length: %d\n", count);
+    else
+    {
+        while (current != NULL)
+        {
+            printf("Name: %s, Age: %d\n", current->name, current->age);
+            current = current->next;
+            length++;
+        }
+        printf("%d people in line:\n", length);
+    }
 }
 
-void addPerson() {
+// Add a person to the queue
+void addPerson(Person** head, char* name, int age, char friends[][50], int friendsCount)
+{
     Person* newPerson = (Person*)malloc(sizeof(Person));
-    Person* temp = head;
-    Person* prev = NULL;
-    char friends[3][NAME_LENGTH];
-    int added = 0;
-
-    printf("Enter name: ");
-    scanf("%s", newPerson->name);
-    printf("Enter names of up to 3 friends (enter 'none' if no friends): ");
-    for (int i = 0; i < 3; i++) {
-        scanf("%s", friends[i]);
-    }
-
+    strcpy(newPerson->name, name);
+    newPerson->age = age;
     newPerson->next = NULL;
 
-    if (head == NULL) {
-        head = newPerson;
-    }
-    else {
-        while (temp != NULL && !added) {
-            for (int i = 0; i < 3; i++) {
-                if (strcmp(friends[i], temp->name) == 0) {
-                    newPerson->next = temp->next;
-                    temp->next = newPerson;
-                    added = 1;
-                    break;
-                }
-            }
-            prev = temp;
-            temp = temp->next;
-        }
-        if (!added) {
-            prev->next = newPerson;
-        }
-    }
-}
-
-void removePerson() {
-    if (head == NULL) {
-        printf("Queue is empty.\n");
+    if (*head == NULL)
+    {
+        *head = newPerson;
         return;
     }
 
-    char name[NAME_LENGTH];
-    printf("Enter the name of the person to remove: ");
-    scanf("%s", name);
+    Person* current = *head;
+    Person* previous = NULL;
 
-    Person* temp = head;
-    Person* prev = NULL;
-
-    while (temp != NULL) {
-        if (strcmp(temp->name, name) == 0) {
-            if (prev == NULL) {
-                head = temp->next;
+    while (current != NULL)
+    {
+        for (int i = 0; i < friendsCount; i++)
+        {
+            if (strcmp(friends[i], current->name) == 0)
+            {
+                newPerson->next = current->next;
+                current->next = newPerson;
+                return;
             }
-            else {
-                prev->next = temp->next;
-            }
-            free(temp);
-            printf("%s has been removed from the queue.\n", name);
-            return;
         }
-        prev = temp;
-        temp = temp->next;
+        previous = current;
+        current = current->next;
     }
 
-    printf("Person not found in the queue.\n");
+    previous->next = newPerson;
 }
 
-void addVIP() {
+// Remove a person from the queue
+void removePerson(Person** head, char* name)
+{
+    Person* current = *head;
+    Person* previous = NULL;
+
+    while (current != NULL && strcmp(current->name, name) != 0)
+    {
+        previous = current;
+        current = current->next;
+    }
+
+    if (current == NULL)
+    {
+        printf("%s not in line\n", name);
+        return;
+    }
+
+    if (previous == NULL)
+    {
+        *head = current->next;
+    }
+    else
+    {
+        previous->next = current->next;
+    }
+
+    free(current);
+    printf("%s removed from line\n", name);
+}
+
+// Add a VIP to the queue
+void addVIP(Person** head, char* name, int age)
+{
     Person* newPerson = (Person*)malloc(sizeof(Person));
-
-    printf("Enter name of VIP: ");
-    scanf("%s", newPerson->name);
-
-    newPerson->next = head;
-    head = newPerson;
-    printf("VIP %s has been added to the front of the queue.\n", newPerson->name);
+    strcpy(newPerson->name, name);
+    newPerson->age = age;
+    newPerson->next = *head;
+    *head = newPerson;
 }
 
-void searchPerson() {
-    if (head == NULL) {
-        printf("Queue is empty.\n");
-        return;
-    }
-
-    char name[NAME_LENGTH];
-    printf("Enter the name of the person to search: ");
-    scanf("%s", name);
-
-    Person* temp = head;
-
-    while (temp != NULL) {
-        if (strcmp(temp->name, name) == 0) {
-            printf("Person %s is in the queue.\n", name);
-            return;
-        }
-        temp = temp->next;
-    }
-
-    printf("Person not found in the queue.\n");
-}
-
-void reverseQueue() {
-    Person* prev = NULL;
+// Search for a person in the queue
+int searchPerson(Person* head, char* name)
+{
     Person* current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->name, name) == 0)
+        {
+            return 1;
+        }
+        current = current->next;
+    }
+    return 0;
+}
+
+// Reverse the queue
+void reverseQueue(Person** head)
+{
+    Person* prev = NULL;
+    Person* current = *head;
     Person* next = NULL;
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         next = current->next;
         current->next = prev;
         prev = current;
         current = next;
     }
-    head = prev;
 
-    printf("Queue has been reversed.\n");
+    *head = prev;
 }
