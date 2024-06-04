@@ -109,11 +109,14 @@ void printQueue(Person* head)
     {
         while (current != NULL)
         {
-            printf("Name: %s, Age: %d\n", current->name, current->age);
-            current = current->next;
             length++;
+            current = current->next;
         }
         printf("%d people in line:\n", length);
+        while (current != NULL)
+        {
+            printf("Name: %s, Age: %d\n", current->name, current->age);
+        }
     }
 }
 
