@@ -37,6 +37,7 @@ int main()
         printf("5 - Search in line\n");
         printf("6 - Reverse line\n");
         printf("7 - Exit\n");
+		printf("enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice)
@@ -50,9 +51,9 @@ int main()
             scanf("%s", name);
             printf("Enter age: ");
             scanf("%d", &age);
+            printf("Enter names of 3 friends:\n");
             for (int i = 0; i < 3; i++)
             {
-                printf("Enter names of 3 friends:\n");
                 printf("Friend %d: ", i + 1);
                 scanf("%s", friends[i]);
             }
@@ -112,10 +113,12 @@ void printQueue(Person* head)
             length++;
             current = current->next;
         }
+        current = head;
         printf("%d people in line:\n", length);
         while (current != NULL)
         {
             printf("Name: %s, Age: %d\n", current->name, current->age);
+            current = current->next;
         }
     }
 }
