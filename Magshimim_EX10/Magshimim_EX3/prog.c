@@ -37,7 +37,7 @@ int main()
         printf("5 - Search in line\n");
         printf("6 - Reverse line\n");
         printf("7 - Exit\n");
-		printf("enter your choice: ");
+        printf("enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice)
@@ -92,6 +92,8 @@ int main()
         }
     } while (choice != 7);
 
+    getchar();
+    getchar();
     return 0;
 }
 
