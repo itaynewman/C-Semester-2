@@ -2,7 +2,8 @@
 
 void printPerfectSquares(int n);
 
-int main() {
+int main() 
+{
     int n;
     printf("Enter a positive integer: ");
     scanf("%d", &n);
@@ -16,9 +17,11 @@ int main() {
     return 0;
 }
 
-void printPerfectSquares(int n) {
+void printPerfectSquares(int n) 
+{
     int i = 1;
-    while (i * i <= n) {
+    while (i * i <= n) 
+    {
         printf("%d\n", i * i);
         i++;
     }
