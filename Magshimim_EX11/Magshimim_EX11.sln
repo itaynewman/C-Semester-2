@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magshimim_EX11", "Magshimim_EX11\Magshimim_EX11.vcxproj", "{6D17E082-9F39-4194-A6B0-8629A299B516}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Debug|x64.ActiveCfg = Debug|x64
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Debug|x64.Build.0 = Debug|x64
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Debug|x86.ActiveCfg = Debug|Win32
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Debug|x86.Build.0 = Debug|Win32
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Release|x64.ActiveCfg = Release|x64
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Release|x64.Build.0 = Release|x64
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Release|x86.ActiveCfg = Release|Win32
+		{6D17E082-9F39-4194-A6B0-8629A299B516}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D40A3E4-F3C1-4698-8C91-97FD6041F43B}
+	EndGlobalSection
+EndGlobal
