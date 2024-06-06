@@ -15,12 +15,12 @@ int main()
     int n;
     printf("Enter a positive integer: ");
     scanf("%d", &n);
-    getchar();  // Wait for Enter after input
+    getchar();
 
     print_perfect_squares(n);
 
     printf("Press Enter to exit...");
-    getchar();  // Wait for Enter before exit
+    getchar();
 
     return 0;
 }
