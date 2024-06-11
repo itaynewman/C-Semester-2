@@ -49,8 +49,8 @@ int main() {
     // Free memory
     freeList(list);
 
-    printf("Press Enter to exit...");
-    getchar();  // Wait for user input before exiting
+    getchar();
+    getchar();
 
     return 0;
 }
