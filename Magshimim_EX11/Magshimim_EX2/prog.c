@@ -1,14 +1,14 @@
 ﻿/*********************************
-* Class: MAGSHIMIM C2			 *
-* Week:                			 *
-* Name:                          *
-* Credits:                       *
+* Class: MAGSHIMIM C2             *
+* Week:                           *
+* Name:                           *
+* Credits:                        *
 **********************************/
 
 #include <stdio.h>
 
-// the function provided by magshimim does prints all the numbers dividable by b in the range(a, b)
-//the runtime complexities of the function is O(a−b)
+// The function prints all the numbers divisible by b in the range (a, b)
+// The runtime complexity of the function is O(a / b)
 
 void function(int a, int b);
 
@@ -32,7 +32,7 @@ int main() {
 }
 
 void function(int a, int b) {
-    for (int i = (a / b) * b; i >= b; i -= b) {
+    for (int i = b; i <= a; i += b) {
         printf("%d ", i);
     }
     printf("\n");
