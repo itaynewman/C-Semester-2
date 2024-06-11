@@ -107,7 +107,6 @@ Node* findKthFromEnd(Node* head, int k) {
         fast = fast->next;
     }
 
-    // Move both pointers at the same speed until fast reaches the end
     while (fast != NULL) {
         slow = slow->next;
         fast = fast->next;
