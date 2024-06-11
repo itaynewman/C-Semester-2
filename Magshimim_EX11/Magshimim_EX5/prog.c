@@ -122,7 +122,6 @@ void rotateList(Node** head, int k) {
         temp = temp->next;
     }
 
-    // Connect the last node to the original head
     temp->next = *head;
 
     // Update the head pointer
