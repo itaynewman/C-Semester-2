@@ -3,7 +3,8 @@
 #include "view.h"
 #include "linkedList.h"
 
-int main() {
+int main() 
+{
     FrameNode* frameList = NULL;
     int choice;
 
@@ -12,7 +13,8 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        switch (choice) {
+        switch (choice) 
+        {
         case 0:
             printf("Exiting the program.\n");
             return 0;
