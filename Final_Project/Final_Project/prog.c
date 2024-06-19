@@ -10,7 +10,6 @@ void changeFramePosition(FrameNode** frameList);
 void changeFrameDuration(FrameNode** frameList);
 void changeAllDurations(FrameNode** frameList);
 void printFrames(FrameNode* frameList);
-void play(FrameNode* frameList);
 
 /**
  * The main function that drives the program.
@@ -172,6 +171,4 @@ void printFrames(FrameNode* frameList) {
 /**
  * Placeholder function to play the GIF.
  */
-void play(FrameNode* frameList) {
-    play(frameList);
-}
+
