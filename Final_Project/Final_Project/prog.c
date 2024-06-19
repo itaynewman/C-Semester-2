@@ -2,8 +2,66 @@
 #include <stdlib.h>
 #include <string.h>
 #include "linkedList.h"
-#include "view.h"
 
+void printMenu();
+void addFrame(FrameNode** frameList);
+void removeFrame(FrameNode** frameList);
+void changeFramePosition(FrameNode** frameList);
+void changeFrameDuration(FrameNode** frameList);
+void changeAllDurations(FrameNode** frameList);
+void printFrames(FrameNode* frameList);
+void play(FrameNode* frameList);
+
+/**
+ * The main function that drives the program.
+ */
+int main() {
+    FrameNode* frameList = NULL;
+    int choice;
+    int shouldExit = 0;
+
+    while (!shouldExit) {
+        printMenu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+        case 0:
+            printf("Exiting the program.\n");
+            shouldExit = 1;
+            break;
+        case 1:
+            addFrame(&frameList);
+            break;
+        case 2:
+            removeFrame(&frameList);
+            break;
+        case 3:
+            changeFramePosition(&frameList);
+            break;
+        case 4:
+            changeFrameDuration(&frameList);
+            break;
+        case 5:
+            changeAllDurations(&frameList);
+            break;
+        case 6:
+            printFrames(frameList);
+            break;
+        case 7:
+            play(frameList);
+            break;
+        default:
+            printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
+
+/**
+ * Prints the main menu options.
+ */
 void printMenu() {
     printf("GIF Maker Menu:\n");
     printf("0. Exit\n");
@@ -16,6 +74,9 @@ void printMenu() {
     printf("7. Play the GIF\n");
 }
 
+/**
+ * Adds a new frame to the linked list.
+ */
 void addFrame(FrameNode** frameList) {
     Frame newFrame;
 
@@ -44,6 +105,9 @@ void addFrame(FrameNode** frameList) {
     printf("Frame added successfully.\n");
 }
 
+/**
+ * Removes a frame from the linked list.
+ */
 void removeFrame(FrameNode** frameList) {
     char name[20];
     printf("Enter the name of the frame to remove: ");
@@ -57,6 +121,9 @@ void removeFrame(FrameNode** frameList) {
     }
 }
 
+/**
+ * Changes the position of a frame in the linked list.
+ */
 void changeFramePosition(FrameNode** frameList) {
     char name[20];
     int newPosition;
@@ -68,6 +135,9 @@ void changeFramePosition(FrameNode** frameList) {
     changeFrameOrder(frameList, name, newPosition);
 }
 
+/**
+ * Changes the duration of a specific frame in the linked list.
+ */
 void changeFrameDuration(FrameNode** frameList) {
     char name[20];
     int newDuration;
@@ -79,6 +149,9 @@ void changeFrameDuration(FrameNode** frameList) {
     changeFrameTime(*frameList, name, newDuration);
 }
 
+/**
+ * Changes the duration of all frames in the linked list.
+ */
 void changeAllDurations(FrameNode** frameList) {
     int newDuration;
     printf("Enter the new duration for all frames (in milliseconds): ");
@@ -88,49 +161,17 @@ void changeAllDurations(FrameNode** frameList) {
     printf("All frame durations updated successfully.\n");
 }
 
+/**
+ * Prints all frames in the linked list.
+ */
 void printFrames(FrameNode* frameList) {
     printf("Frames in the GIF:\n");
     printFramesList(frameList);
 }
 
-int main() {
-    FrameNode* frameList = NULL;
-    int choice;
-
-    while (1) {
-        printMenu();
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
-        case 0:
-            printf("Exiting the program.\n");
-            return 0;
-        case 1:
-            addFrame(&frameList);
-            break;
-        case 2:
-            removeFrame(&frameList);
-            break;
-        case 3:
-            changeFramePosition(&frameList);
-            break;
-        case 4:
-            changeFrameDuration(&frameList);
-            break;
-        case 5:
-            changeAllDurations(&frameList);
-            break;
-        case 6:
-            printFrames(frameList);
-            break;
-        case 7:
-            play(frameList);
-            break;
-        default:
-            printf("Invalid choice. Please try again.\n");
-        }
-    }
-
-    return 0;
+/**
+ * Placeholder function to play the GIF.
+ */
+void play(FrameNode* frameList) {
+    play(frameList);
 }
