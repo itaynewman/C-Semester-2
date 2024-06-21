@@ -3,9 +3,6 @@
 #include <string.h>
 #include "linkedList.h"
 
-/**
- * Inserts a new frame at the end of the linked list.
- */
 void insertFrame(FrameNode** head, Frame newFrame) {
     FrameNode* newNode = (FrameNode*)malloc(sizeof(FrameNode));
     if (!newNode) {
@@ -27,10 +24,6 @@ void insertFrame(FrameNode** head, Frame newFrame) {
     }
 }
 
-/**
- * Deletes a frame from the linked list by its name.
- * Returns 1 if successful, 0 if the frame was not found.
- */
 int deleteFrame(FrameNode** head, char* name) {
     FrameNode* temp = *head, * prev = NULL;
 
@@ -54,10 +47,6 @@ int deleteFrame(FrameNode** head, char* name) {
     return 1;
 }
 
-/**
- * Finds a frame in the linked list by its name.
- * Returns a pointer to the frame node if found, NULL otherwise.
- */
 FrameNode* findFrame(FrameNode* head, char* name) {
     FrameNode* temp = head;
 
@@ -71,9 +60,6 @@ FrameNode* findFrame(FrameNode* head, char* name) {
     return NULL;
 }
 
-/**
- * Changes the order of a frame in the linked list.
- */
 void changeFrameOrder(FrameNode** head, char* name, int newPosition) {
     if (newPosition <= 0) {
         printf("Invalid position\n");
@@ -116,9 +102,6 @@ void changeFrameOrder(FrameNode** head, char* name, int newPosition) {
     printf("Frame position updated successfully.\n");
 }
 
-/**
- * Changes the duration of a specific frame.
- */
 void changeFrameTime(FrameNode* head, char* name, int newDuration) {
     FrameNode* frameNode = findFrame(head, name);
     if (frameNode != NULL) {
@@ -129,9 +112,6 @@ void changeFrameTime(FrameNode* head, char* name, int newDuration) {
     }
 }
 
-/**
- * Changes the duration of all frames in the linked list.
- */
 void changeAllFrameTimes(FrameNode* head, int newDuration) {
     FrameNode* temp = head;
 
@@ -141,16 +121,11 @@ void changeAllFrameTimes(FrameNode* head, int newDuration) {
     }
 }
 
-/**
- * Prints the details of all frames in the linked list.
- */
 void printFramesList(FrameNode* head) {
     FrameNode* temp = head;
 
     while (temp != NULL) {
-        printf("Name: %s\n", temp->frame.name);
-        printf("Path: %s\n", temp->frame.path);
-        printf("Duration: %d ms\n\n", temp->frame.duration);
+        printf("%s\t\t%s\t\t\t%d\n", temp->frame.name, temp->frame.path, temp->frame.duration);
         temp = temp->next;
     }
 }
