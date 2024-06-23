@@ -3,6 +3,14 @@
 #include <string.h>
 #include "linkedList.h"
 
+#define ANSI_COLOR_RED "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_YELLOW "\x1b[33m"
+#define ANSI_COLOR_BLUE "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN "\x1b[36m"
+#define ANSI_COLOR_RESET "\x1b[0m"
+
 void printMenu();
 void addFrame(FrameNode** frameList);
 void removeFrame(FrameNode** frameList);
@@ -21,7 +29,7 @@ int main() {
         printMenu();
         printf("Enter your choice: ");
         if (scanf("%d", &choice) != 1) {
-            printf("Invalid input. Please enter a number.\n");
+            printf(ANSI_COLOR_RED "Invalid input. Please enter a number.\n" ANSI_COLOR_RESET);
             clearInputBuffer();
             continue;
         }
@@ -30,7 +38,7 @@ int main() {
 
         switch (choice) {
         case 0:
-            printf("Exiting the program.\n");
+            printf(ANSI_COLOR_GREEN "Exiting the program.\n" ANSI_COLOR_RESET);
             shouldExit = 1;
             break;
         case 1:
@@ -55,7 +63,7 @@ int main() {
             play(frameList);
             break;
         default:
-            printf("Invalid choice. Please try again.\n");
+            printf(ANSI_COLOR_RED "Invalid choice. Please try again.\n" ANSI_COLOR_RESET);
         }
     }
 
@@ -63,16 +71,16 @@ int main() {
 }
 
 void printMenu() {
-    printf("\n========== GIF Maker Menu ==========\n");
-    printf("0. Exit\n");
-    printf("1. Add a new frame\n");
-    printf("2. Remove a frame\n");
-    printf("3. Change the position of a frame\n");
-    printf("4. Change the duration of a frame\n");
-    printf("5. Change the duration of all frames\n");
-    printf("6. Display all frames\n");
-    printf("7. Play the GIF\n");
-    printf("====================================\n");
+    printf(ANSI_COLOR_CYAN "\n========== GIF Maker Menu ==========\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "0. Exit\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "1. Add a new frame\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "2. Remove a frame\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "3. Change the position of a frame\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "4. Change the duration of a frame\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "5. Change the duration of all frames\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "6. Display all frames\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_BLUE "7. Play the GIF\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_CYAN "====================================\n" ANSI_COLOR_RESET);
 }
 
 void addFrame(FrameNode** frameList) {
@@ -84,39 +92,40 @@ void addFrame(FrameNode** frameList) {
 
     printf("Enter the duration (in milliseconds): ");
     scanf("%d", &newFrame.duration);
+    clearInputBuffer();
     printf("Enter the name of the frame: ");
-    scanf("%s", newFrame.name);
+    fgets(newFrame.name, sizeof(newFrame.name), stdin);
+    newFrame.name[strcspn(newFrame.name, "\n")] = '\0'; // Remove newline if present
 
     // Check if frame name already exists
     if (findFrame(*frameList, newFrame.name)) {
-        printf("Frame with this name already exists. Please choose a different name.\n");
+        printf(ANSI_COLOR_RED "Frame with this name already exists. Please choose a different name.\n" ANSI_COLOR_RESET);
         return;
     }
 
     // Check if image file exists
     FILE* file = fopen(newFrame.path, "r");
     if (!file) {
-        printf("Image file does not exist. Please check the path and try again.\n");
+        printf(ANSI_COLOR_RED "Image file does not exist. Please check the path and try again.\n" ANSI_COLOR_RESET);
         return;
     }
     fclose(file);
 
     insertFrame(frameList, newFrame);
-    printf("Frame added successfully.\n");
+    printf(ANSI_COLOR_GREEN "Frame added successfully.\n" ANSI_COLOR_RESET);
 }
-
 
 void removeFrame(FrameNode** frameList) {
     char name[20];
     printf("Enter the name of the frame to remove: ");
-    scanf("%s", name);
-    clearInputBuffer();
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
     if (deleteFrame(frameList, name)) {
-        printf("Frame removed successfully.\n");
+        printf(ANSI_COLOR_GREEN "Frame removed successfully.\n" ANSI_COLOR_RESET);
     }
     else {
-        printf("Frame not found.\n");
+        printf(ANSI_COLOR_RED "Frame not found.\n" ANSI_COLOR_RESET);
     }
 }
 
@@ -124,12 +133,12 @@ void changeFramePosition(FrameNode** frameList) {
     char name[20];
     int newPosition;
     printf("Enter the name of the frame to move: ");
-    scanf("%s", name);
-    clearInputBuffer();
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
     printf("Enter the new position: ");
     while (scanf("%d", &newPosition) != 1) {
-        printf("Invalid input. Please enter a valid position.\n");
+        printf(ANSI_COLOR_RED "Invalid input. Please enter a valid position.\n" ANSI_COLOR_RESET);
         clearInputBuffer();
         printf("Enter the new position: ");
     }
@@ -142,12 +151,12 @@ void changeFrameDuration(FrameNode** frameList) {
     char name[20];
     int newDuration;
     printf("Enter the name of the frame to change duration: ");
-    scanf("%s", name);
-    clearInputBuffer();
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
     printf("Enter the new duration (in milliseconds): ");
     while (scanf("%d", &newDuration) != 1) {
-        printf("Invalid input. Please enter a valid duration.\n");
+        printf(ANSI_COLOR_RED "Invalid input. Please enter a valid duration.\n" ANSI_COLOR_RESET);
         clearInputBuffer();
         printf("Enter the new duration (in milliseconds): ");
     }
@@ -160,20 +169,20 @@ void changeAllDurations(FrameNode** frameList) {
     int newDuration;
     printf("Enter the new duration for all frames (in milliseconds): ");
     while (scanf("%d", &newDuration) != 1) {
-        printf("Invalid input. Please enter a valid duration.\n");
+        printf(ANSI_COLOR_RED "Invalid input. Please enter a valid duration.\n" ANSI_COLOR_RESET);
         clearInputBuffer();
         printf("Enter the new duration for all frames (in milliseconds): ");
     }
     clearInputBuffer();
 
     changeAllFrameTimes(*frameList, newDuration);
-    printf("All frame durations updated successfully.\n");
+    printf(ANSI_COLOR_GREEN "All frame durations updated successfully.\n" ANSI_COLOR_RESET);
 }
 
 void printFrames(FrameNode* frameList) {
-    printf("Frames in the GIF:\n");
-    printf("Name\t\tPath\t\t\tDuration (ms)\n");
-    printf("-------------------------------------------------------------\n");
+    printf(ANSI_COLOR_YELLOW "Frames in the GIF:\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_MAGENTA "Name\t\tPath\t\t\tDuration (ms)\n" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_MAGENTA "-------------------------------------------------------------\n" ANSI_COLOR_RESET);
     printFramesList(frameList);
 }
 
