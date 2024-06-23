@@ -24,6 +24,7 @@ void insertFrame(FrameNode** head, Frame newFrame) {
     }
 }
 
+
 int deleteFrame(FrameNode** head, char* name) {
     FrameNode* temp = *head, * prev = NULL;
 
@@ -125,7 +126,7 @@ void printFramesList(FrameNode* head) {
     FrameNode* temp = head;
 
     while (temp != NULL) {
-        printf("%s\t\t%s\t\t\t%d\n", temp->frame.name, temp->frame.path, temp->frame.duration);
+        printf("%s\t\t%s\t\t%d\n", temp->frame.name, temp->frame.path, temp->frame.duration);
         temp = temp->next;
     }
 }

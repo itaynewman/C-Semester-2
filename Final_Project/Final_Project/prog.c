@@ -26,6 +26,8 @@ int main() {
             continue;
         }
 
+        clearInputBuffer();
+
         switch (choice) {
         case 0:
             printf("Exiting the program.\n");
@@ -75,22 +77,23 @@ void printMenu() {
 
 void addFrame(FrameNode** frameList) {
     Frame newFrame;
+
     printf("Enter the path of the image: ");
-    scanf("%s", newFrame.path);
+    fgets(newFrame.path, sizeof(newFrame.path), stdin);
+    newFrame.path[strcspn(newFrame.path, "\n")] = '\0'; // Remove newline if present
+
     printf("Enter the duration (in milliseconds): ");
-    if (scanf("%d", &newFrame.duration) != 1) {
-        printf("Invalid input. Please enter a valid duration.\n");
-        clearInputBuffer();
-        return;
-    }
+    scanf("%d", &newFrame.duration);
     printf("Enter the name of the frame: ");
     scanf("%s", newFrame.name);
 
+    // Check if frame name already exists
     if (findFrame(*frameList, newFrame.name)) {
         printf("Frame with this name already exists. Please choose a different name.\n");
         return;
     }
 
+    // Check if image file exists
     FILE* file = fopen(newFrame.path, "r");
     if (!file) {
         printf("Image file does not exist. Please check the path and try again.\n");
@@ -102,10 +105,12 @@ void addFrame(FrameNode** frameList) {
     printf("Frame added successfully.\n");
 }
 
+
 void removeFrame(FrameNode** frameList) {
     char name[20];
     printf("Enter the name of the frame to remove: ");
     scanf("%s", name);
+    clearInputBuffer();
 
     if (deleteFrame(frameList, name)) {
         printf("Frame removed successfully.\n");
@@ -120,12 +125,15 @@ void changeFramePosition(FrameNode** frameList) {
     int newPosition;
     printf("Enter the name of the frame to move: ");
     scanf("%s", name);
+    clearInputBuffer();
+
     printf("Enter the new position: ");
-    if (scanf("%d", &newPosition) != 1) {
+    while (scanf("%d", &newPosition) != 1) {
         printf("Invalid input. Please enter a valid position.\n");
         clearInputBuffer();
-        return;
+        printf("Enter the new position: ");
     }
+    clearInputBuffer();
 
     changeFrameOrder(frameList, name, newPosition);
 }
@@ -135,12 +143,15 @@ void changeFrameDuration(FrameNode** frameList) {
     int newDuration;
     printf("Enter the name of the frame to change duration: ");
     scanf("%s", name);
+    clearInputBuffer();
+
     printf("Enter the new duration (in milliseconds): ");
-    if (scanf("%d", &newDuration) != 1) {
+    while (scanf("%d", &newDuration) != 1) {
         printf("Invalid input. Please enter a valid duration.\n");
         clearInputBuffer();
-        return;
+        printf("Enter the new duration (in milliseconds): ");
     }
+    clearInputBuffer();
 
     changeFrameTime(*frameList, name, newDuration);
 }
@@ -148,11 +159,12 @@ void changeFrameDuration(FrameNode** frameList) {
 void changeAllDurations(FrameNode** frameList) {
     int newDuration;
     printf("Enter the new duration for all frames (in milliseconds): ");
-    if (scanf("%d", &newDuration) != 1) {
+    while (scanf("%d", &newDuration) != 1) {
         printf("Invalid input. Please enter a valid duration.\n");
         clearInputBuffer();
-        return;
+        printf("Enter the new duration for all frames (in milliseconds): ");
     }
+    clearInputBuffer();
 
     changeAllFrameTimes(*frameList, newDuration);
     printf("All frame durations updated successfully.\n");
