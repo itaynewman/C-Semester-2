@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "linkedList.h"
+#include "linkedList.h"  // Assuming linkedList.h contains declarations related to linked list operations
 
+// ANSI color codes for colored output
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_GREEN "\x1b[32m"
 #define ANSI_COLOR_YELLOW "\x1b[33m"
@@ -11,6 +12,7 @@
 #define ANSI_COLOR_CYAN "\x1b[36m"
 #define ANSI_COLOR_RESET "\x1b[0m"
 
+// Function prototypes
 void printMenu();
 void addFrame(FrameNode** frameList);
 void removeFrame(FrameNode** frameList);
@@ -22,58 +24,60 @@ void clearInputBuffer();
 
 int main()
 {
-    FrameNode* frameList = NULL;
+    FrameNode* frameList = NULL; // Initialize linked list of frames
     int choice;
     int shouldExit = 0;
 
+    // Main loop for menu-driven program
     while (!shouldExit)
     {
-        printMenu();
+        printMenu();  // Display menu options
         printf("Enter your choice: ");
-        if (scanf("%d", &choice) != 1)
+        if (scanf("%d", &choice) != 1)  // Validate input as integer
         {
             printf(ANSI_COLOR_RED "Invalid input. Please enter a number.\n" ANSI_COLOR_RESET);
-            clearInputBuffer();
-            continue;
+            clearInputBuffer();  // Clear input buffer in case of invalid input
+            continue;  // Restart loop to prompt for input again
         }
 
-        clearInputBuffer();
+        clearInputBuffer();  // Clear input buffer after valid input
 
         switch (choice)
         {
         case 0:
             printf(ANSI_COLOR_GREEN "Exiting the program.\n" ANSI_COLOR_RESET);
-            shouldExit = 1;
+            shouldExit = 1;  // Set flag to exit the loop
             break;
         case 1:
-            addFrame(&frameList);
+            addFrame(&frameList);  // Call function to add a new frame
             break;
         case 2:
-            removeFrame(&frameList);
+            removeFrame(&frameList);  // Call function to remove a frame
             break;
         case 3:
-            changeFramePosition(&frameList);
+            changeFramePosition(&frameList);  // Call function to change frame position
             break;
         case 4:
-            changeFrameDuration(&frameList);
+            changeFrameDuration(&frameList);  // Call function to change frame duration
             break;
         case 5:
-            changeAllDurations(&frameList);
+            changeAllDurations(&frameList);  // Call function to change duration of all frames
             break;
         case 6:
-            printFrames(frameList);
+            printFrames(frameList);  // Call function to print all frames
             break;
         case 7:
-            play(frameList);
+            play(frameList);  // Example placeholder for function to play GIF
             break;
         default:
             printf(ANSI_COLOR_RED "Invalid choice. Please try again.\n" ANSI_COLOR_RESET);
         }
     }
 
-    return 0;
+    return 0;  // Exit program with success
 }
 
+// Function to print the menu options
 void printMenu()
 {
     printf(ANSI_COLOR_CYAN "\n========== GIF Maker Menu ==========\n" ANSI_COLOR_RESET);
@@ -88,6 +92,7 @@ void printMenu()
     printf(ANSI_COLOR_CYAN "====================================\n" ANSI_COLOR_RESET);
 }
 
+// Function to add a new frame to the linked list
 void addFrame(FrameNode** frameList)
 {
     Frame newFrame;
@@ -119,10 +124,11 @@ void addFrame(FrameNode** frameList)
     }
     fclose(file);
 
-    insertFrame(frameList, newFrame);
+    insertFrame(frameList, newFrame);  // Insert new frame into linked list
     printf(ANSI_COLOR_GREEN "Frame added successfully.\n" ANSI_COLOR_RESET);
 }
 
+// Function to remove a frame from the linked list
 void removeFrame(FrameNode** frameList)
 {
     char name[20];
@@ -130,7 +136,7 @@ void removeFrame(FrameNode** frameList)
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
-    if (deleteFrame(frameList, name))
+    if (deleteFrame(frameList, name))  // Attempt to delete frame by name
     {
         printf(ANSI_COLOR_GREEN "Frame removed successfully.\n" ANSI_COLOR_RESET);
     }
@@ -140,6 +146,7 @@ void removeFrame(FrameNode** frameList)
     }
 }
 
+// Function to change the position of a frame in the linked list
 void changeFramePosition(FrameNode** frameList)
 {
     char name[20];
@@ -157,9 +164,10 @@ void changeFramePosition(FrameNode** frameList)
     }
     clearInputBuffer();
 
-    changeFrameOrder(frameList, name, newPosition);
+    changeFrameOrder(frameList, name, newPosition);  // Change frame order in linked list
 }
 
+// Function to change the duration of a frame in the linked list
 void changeFrameDuration(FrameNode** frameList)
 {
     char name[20];
@@ -177,9 +185,10 @@ void changeFrameDuration(FrameNode** frameList)
     }
     clearInputBuffer();
 
-    changeFrameTime(*frameList, name, newDuration);
+    changeFrameTime(*frameList, name, newDuration);  // Update frame duration in linked list
 }
 
+// Function to change the duration of all frames in the linked list
 void changeAllDurations(FrameNode** frameList)
 {
     int newDuration;
@@ -192,18 +201,20 @@ void changeAllDurations(FrameNode** frameList)
     }
     clearInputBuffer();
 
-    changeAllFrameTimes(*frameList, newDuration);
+    changeAllFrameTimes(*frameList, newDuration);  // Update all frame durations in linked list
     printf(ANSI_COLOR_GREEN "All frame durations updated successfully.\n" ANSI_COLOR_RESET);
 }
 
+// Function to print all frames in the linked list
 void printFrames(FrameNode* frameList)
 {
     printf(ANSI_COLOR_YELLOW "Frames in the GIF:\n" ANSI_COLOR_RESET);
     printf(ANSI_COLOR_MAGENTA "Name\t\tPath\t\t\tDuration (ms)\n" ANSI_COLOR_RESET);
     printf(ANSI_COLOR_MAGENTA "-------------------------------------------------------------\n" ANSI_COLOR_RESET);
-    printFramesList(frameList);
+    printFramesList(frameList);  // Call function to print frames from linked list
 }
 
+// Function to clear input buffer (discard extra characters after valid input)
 void clearInputBuffer()
 {
     int c;
