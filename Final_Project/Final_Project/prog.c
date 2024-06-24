@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "linkedList.h"  // Assuming linkedList.h contains declarations related to linked list operations
+#include "owieutil.h"
+#include "view.h"
 
 // ANSI color codes for colored output
 #define ANSI_COLOR_RED "\x1b[31m"
@@ -22,6 +24,17 @@ void changeAllDurations(FrameNode** frameList);
 void printFrames(FrameNode* frameList);
 void clearInputBuffer();
 
+const char* options[] = {
+        "0. Exit",
+        "1. Add a new frame",
+        "2. Remove a frame",
+        "3. Change the position of a frame",
+        "4. Change the duration of a frame",
+        "5. Change the duration of all frames",
+        "6. Display all frames",
+        "7. Play the GIF"
+};
+
 int main()
 {
     FrameNode* frameList = NULL; // Initialize linked list of frames
@@ -31,8 +44,9 @@ int main()
     // Main loop for menu-driven program
     while (!shouldExit)
     {
-        printMenu();  // Display menu options
-        printf("Enter your choice: ");
+        //npicker("green", "select an option:", options, 7);
+		printMenu();  // Print menu options
+		printf(ANSI_COLOR_YELLOW "Enter your choice: " ANSI_COLOR_RESET);
         if (scanf("%d", &choice) != 1)  // Validate input as integer
         {
             printf(ANSI_COLOR_RED "Invalid input. Please enter a number.\n" ANSI_COLOR_RESET);

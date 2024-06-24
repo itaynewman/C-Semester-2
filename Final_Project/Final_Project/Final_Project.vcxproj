@@ -99,7 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>c:\opencv\build\include;c:\Users\Cyber_User\Downloads\owieutil.h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\opencv\build\include;c:\Users\Cyber_User\source\repos\Final_Project\Final_Project\owieutil.h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,11 +145,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Documents\Magshimim\C semester 2\Week 12 Final Project\view.c" />
     <ClCompile Include="linkedList.c" />
+    <ClCompile Include="owieutil.c" />
     <ClCompile Include="prog.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Documents\Magshimim\C semester 2\Week 12 Final Project\linkedList.h" />
     <ClInclude Include="..\..\..\..\Documents\Magshimim\C semester 2\Week 12 Final Project\view.h" />
+    <ClInclude Include="..\..\..\..\Downloads\owieutil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

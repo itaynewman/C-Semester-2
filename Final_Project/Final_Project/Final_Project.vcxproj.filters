@@ -24,12 +24,18 @@
     <ClCompile Include="linkedList.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="owieutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Documents\Magshimim\C semester 2\Week 12 Final Project\view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Documents\Magshimim\C semester 2\Week 12 Final Project\linkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\owieutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
