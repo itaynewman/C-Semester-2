@@ -32,8 +32,5 @@
     <ClInclude Include="..\..\..\..\Documents\Magshimim\C semester 2\Week 12 Final Project\linkedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\owieutil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
