@@ -6,7 +6,8 @@
 #include "view.h"
 
 // Function prototypes
-void printMainMenu();
+void printMenu();
+void printFirstMenu();
 void addFrame(FrameNode** frameList);
 void removeFrame(FrameNode** frameList);
 void changeFramePosition(FrameNode** frameList);
@@ -30,6 +31,12 @@ const char* options[] =
         "7. Play the GIF"
 };
 
+const char* firstOptions[] =
+{
+    "0. Create a new project",
+    "1. Load existing project"
+};
+
 int main()
 {
     FrameNode* frameList = NULL; // Initialize linked list of frames
@@ -37,18 +44,14 @@ int main()
     int projectChoice;
     int shouldExit = 0;
 
-    printf(ANSIC_PURPLE_BRIGHT "Welcome to Magshimim Movie Maker!\n" ANSIC_RESET);
-    printf(ANSIC_WHITE "What would you like to do?\n");
-    printf(ANSIC_BLUE " [0] Create a new project\n");
-    printf(ANSIC_BLUE " [1] Load existing project\n");
-    printf(ANSIC_WHITE "Enter your choice: " ANSIC_RESET);
-
-    if (scanf("%d", &mainChoice) != 1)
-    {
-        printf(ANSIC_RED_BRIGHT "Invalid input. Exiting...\n" ANSIC_RESET);
-        return 1;
-    }
-    clearInputBuffer();
+	//printFirstMenu();
+	mainChoice = npicker("purple", "select an options:", firstOptions, 2);
+    //if (scanf("%d", &mainChoice) != 1)
+    //{
+        //printf(ANSIC_RED_BRIGHT "Invalid input. Exiting...\n" ANSIC_RESET);
+        //return 1;
+    //}
+    //clearInputBuffer();
 
     switch (mainChoice)
     {
@@ -66,16 +69,16 @@ int main()
     while (!shouldExit)
     {
         printf(ANSIC_COLOR_CYAN "\n========== GIF Maker Menu ==========\n" ANSIC_COLOR_RESET);
-        npicker("info", "select an option:", options, 7);
+        projectChoice = npicker("purple", "select an option:", options, 8);
         //printMenu();  // Print menu options
         printf(ANSIC_COLOR_CYAN "====================================\n" ANSIC_COLOR_RESET);
-        if (scanf("%d", &projectChoice) != 1)
-        {
-            printf(ANSIC_RED_BRIGHT "Invalid input. Please enter a number.\n" ANSIC_RESET);
-            clearInputBuffer();
-            continue;
-        }
-        clearInputBuffer();
+        //if (scanf("%d", &projectChoice) != 1)
+        //{
+            //printf(ANSIC_RED_BRIGHT "Invalid input. Please enter a number.\n" ANSIC_RESET);
+            //clearInputBuffer();
+            //continue;
+        //}
+        //clearInputBuffer();
 
         switch (projectChoice)
         {
@@ -119,7 +122,7 @@ int main()
 }
 
 // Function to print the main menu options
-void printMainMenu()
+void printMenu()
 {
     printf(ANSIC_WHITE "\nWhat would you like to do?\n");
     printf(ANSIC_BLUE " [0] Exit\n");
@@ -131,6 +134,15 @@ void printMainMenu()
     printf(ANSIC_BLUE " [6] List frames\n");
     printf(ANSIC_BLUE " [7] Play movie!\n");
     printf(ANSIC_BLUE " [8] Save project\n" ANSIC_RESET);
+}
+
+void printFirstMenu()
+{
+    printf(ANSIC_PURPLE_BRIGHT "Welcome to Magshimim Movie Maker!\n" ANSIC_RESET);
+    printf(ANSIC_WHITE "What would you like to do?\n");
+    printf(ANSIC_BLUE " [0] Create a new project\n");
+    printf(ANSIC_BLUE " [1] Load existing project\n");
+    printf(ANSIC_WHITE "Enter your choice: " ANSIC_RESET);
 }
 
 // Function to add a new frame to the linked list

@@ -56,7 +56,7 @@
 void nprint_full(const char* style, const char* text, bool clock, const char* end, FILE* file, ...);
 #define nprint(style, text, ...) nprint_full(style, text, false, NULL, NULL, ##__VA_ARGS__)
 #define nprint_clock(style, text, ...) nprint_full(style, text, true, NULL, NULL, ##__VA_ARGS__)
-const char* npicker(const char* style, const char* title, const char** options, int num_options);
+int npicker(const char* style, const char* title, const char** options, int num_options);
 void ninput(const char* style, const char* prompt, char* buffer, size_t buffer_size);
 
 #endif // OWIEUTIL_H

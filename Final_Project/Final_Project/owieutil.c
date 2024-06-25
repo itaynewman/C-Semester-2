@@ -134,7 +134,7 @@ void nprint_full(const char* style, const char* text, bool clock, const char* en
 }
 
 // interactive option picker that displays a menu and lets the user choose an option
-const char* npicker(const char* style, const char* title, const char** options, int num_options) {
+int npicker(const char* style, const char* title, const char** options, int num_options) {
 #ifdef _WIN32
     // Get a handle to the console output device
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -172,7 +172,7 @@ const char* npicker(const char* style, const char* title, const char** options, 
     buffer = malloc(bufferSize.X * bufferSize.Y * sizeof(CHAR_INFO));
     if (buffer == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
-        return NULL;
+        return -1;
     }
 
     // Define region to read
@@ -233,15 +233,17 @@ const char* npicker(const char* style, const char* title, const char** options, 
             // Restore original cursor position
             SetConsoleCursorPosition(hConsole, originalCsbi.dwCursorPosition);
 
+            // Free allocated buffer memory
+            free(buffer);
 
-            // Return the selected option
-            return options[selected];
+            // Return the index of the selected option
+            return selected;
 #else
             // Clear console for Linux
             printf("\033[H\033[J");
 
-            // Return the selected option
-            return options[selected];
+            // Return the index of the selected option
+            return selected;
 #endif
         default:
             // Ignore other keys
@@ -263,8 +265,9 @@ const char* npicker(const char* style, const char* title, const char** options, 
 #endif
 
     // Default return
-    return NULL;
+    return -1;
 }
+
 
 void ninput(const char* style, const char* prompt, char* buffer, size_t buffer_size) {
     if (!prompt || !buffer) {
