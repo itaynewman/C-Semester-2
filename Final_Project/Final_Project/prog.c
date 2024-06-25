@@ -2,20 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "linkedList.h"  // Assuming linkedList.h contains declarations related to linked list operations
-#include "owieutil.h"
+#include "owieutil.h"  // Including the header with ANSI color codes
 #include "view.h"
 
-// ANSI color codes for colored output
-#define ANSI_COLOR_RED "\x1b[31m"
-#define ANSI_COLOR_GREEN "\x1b[32m"
-#define ANSI_COLOR_YELLOW "\x1b[33m"
-#define ANSI_COLOR_BLUE "\x1b[34m"
-#define ANSI_COLOR_MAGENTA "\x1b[35m"
-#define ANSI_COLOR_CYAN "\x1b[36m"
-#define ANSI_COLOR_RESET "\x1b[0m"
-
 // Function prototypes
-void printMenu();
+void printMainMenu();
 void addFrame(FrameNode** frameList);
 void removeFrame(FrameNode** frameList);
 void changeFramePosition(FrameNode** frameList);
@@ -23,8 +14,12 @@ void changeFrameDuration(FrameNode** frameList);
 void changeAllDurations(FrameNode** frameList);
 void printFrames(FrameNode* frameList);
 void clearInputBuffer();
+void saveProject(FrameNode* frameList);
+void loadProject(FrameNode** frameList);
+void clearFrameList(FrameNode** frameList);
 
-const char* options[] = {
+const char* options[] = 
+{
         "0. Exit",
         "1. Add a new frame",
         "2. Remove a frame",
@@ -38,72 +33,104 @@ const char* options[] = {
 int main()
 {
     FrameNode* frameList = NULL; // Initialize linked list of frames
-    int choice;
+    int mainChoice;
+    int projectChoice;
     int shouldExit = 0;
 
-    // Main loop for menu-driven program
+    printf(ANSIC_PURPLE_BRIGHT "Welcome to Magshimim Movie Maker!\n" ANSIC_RESET);
+    printf(ANSIC_WHITE "What would you like to do?\n");
+    printf(ANSIC_BLUE " [0] Create a new project\n");
+    printf(ANSIC_BLUE " [1] Load existing project\n");
+    printf(ANSIC_WHITE "Enter your choice: " ANSIC_RESET);
+
+    if (scanf("%d", &mainChoice) != 1)
+    {
+        printf(ANSIC_RED_BRIGHT "Invalid input. Exiting...\n" ANSIC_RESET);
+        return 1;
+    }
+    clearInputBuffer();
+
+    switch (mainChoice)
+    {
+    case 0:
+        printf(ANSIC_GREEN_BRIGHT "Working on a new project.\n" ANSIC_RESET);
+        break;
+    case 1:
+        loadProject(&frameList);  // Load existing project
+        break;
+    default:
+        printf(ANSIC_RED_BRIGHT "Invalid choice. Exiting...\n" ANSIC_RESET);
+        return 1;
+    }
+
     while (!shouldExit)
     {
-        //npicker("green", "select an option:", options, 7);
-		printMenu();  // Print menu options
-		printf(ANSI_COLOR_YELLOW "Enter your choice: " ANSI_COLOR_RESET);
-        if (scanf("%d", &choice) != 1)  // Validate input as integer
+        printf(ANSIC_COLOR_CYAN "\n========== GIF Maker Menu ==========\n" ANSIC_COLOR_RESET);
+        npicker("info", "select an option:", options, 7);
+        //printMenu();  // Print menu options
+        printf(ANSIC_COLOR_CYAN "====================================\n" ANSIC_COLOR_RESET);
+        if (scanf("%d", &projectChoice) != 1)
         {
-            printf(ANSI_COLOR_RED "Invalid input. Please enter a number.\n" ANSI_COLOR_RESET);
-            clearInputBuffer();  // Clear input buffer in case of invalid input
-            continue;  // Restart loop to prompt for input again
+            printf(ANSIC_RED_BRIGHT "Invalid input. Please enter a number.\n" ANSIC_RESET);
+            clearInputBuffer();
+            continue;
         }
+        clearInputBuffer();
 
-        clearInputBuffer();  // Clear input buffer after valid input
-
-        switch (choice)
+        switch (projectChoice)
         {
         case 0:
-            printf(ANSI_COLOR_GREEN "Exiting the program.\n" ANSI_COLOR_RESET);
-            shouldExit = 1;  // Set flag to exit the loop
+            printf(ANSIC_GREEN_BRIGHT "Exiting the program.\n" ANSIC_RESET);
+            shouldExit = 1;
             break;
         case 1:
-            addFrame(&frameList);  // Call function to add a new frame
+            addFrame(&frameList);
             break;
         case 2:
-            removeFrame(&frameList);  // Call function to remove a frame
+            removeFrame(&frameList);
             break;
         case 3:
-            changeFramePosition(&frameList);  // Call function to change frame position
+            changeFramePosition(&frameList);
             break;
         case 4:
-            changeFrameDuration(&frameList);  // Call function to change frame duration
+            changeFrameDuration(&frameList);
             break;
         case 5:
-            changeAllDurations(&frameList);  // Call function to change duration of all frames
+            changeAllDurations(&frameList);
             break;
         case 6:
-            printFrames(frameList);  // Call function to print all frames
+            printFrames(frameList);
             break;
         case 7:
-            play(frameList);  // Example placeholder for function to play GIF
+            play(frameList);
+            break;
+        case 8:
+            saveProject(frameList);
             break;
         default:
-            printf(ANSI_COLOR_RED "Invalid choice. Please try again.\n" ANSI_COLOR_RESET);
+            printf(ANSIC_RED_BRIGHT "Invalid choice. Please try again.\n" ANSIC_RESET);
         }
     }
 
-    return 0;  // Exit program with success
+    // Clean up memory before exiting
+    clearFrameList(&frameList);
+
+    return 0;
 }
 
-// Function to print the menu options
-void printMenu()
+// Function to print the main menu options
+void printMainMenu()
 {
-    printf(ANSI_COLOR_CYAN "\n========== GIF Maker Menu ==========\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "0. Exit\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "1. Add a new frame\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "2. Remove a frame\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "3. Change the position of a frame\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "4. Change the duration of a frame\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "5. Change the duration of all frames\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "6. Display all frames\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_BLUE "7. Play the GIF\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_CYAN "====================================\n" ANSI_COLOR_RESET);
+    printf(ANSIC_WHITE "\nWhat would you like to do?\n");
+    printf(ANSIC_BLUE " [0] Exit\n");
+    printf(ANSIC_BLUE " [1] Add new Frame\n");
+    printf(ANSIC_BLUE " [2] Remove a Frame\n");
+    printf(ANSIC_BLUE " [3] Change frame index\n");
+    printf(ANSIC_BLUE " [4] Change frame duration\n");
+    printf(ANSIC_BLUE " [5] Change duration of all frames\n");
+    printf(ANSIC_BLUE " [6] List frames\n");
+    printf(ANSIC_BLUE " [7] Play movie!\n");
+    printf(ANSIC_BLUE " [8] Save project\n" ANSIC_RESET);
 }
 
 // Function to add a new frame to the linked list
@@ -111,21 +138,21 @@ void addFrame(FrameNode** frameList)
 {
     Frame newFrame;
 
-    printf("Enter the path of the image: ");
+    printf(ANSIC_WHITE "Enter the path of the image: " ANSIC_RESET);
     fgets(newFrame.path, sizeof(newFrame.path), stdin);
     newFrame.path[strcspn(newFrame.path, "\n")] = '\0'; // Remove newline if present
 
-    printf("Enter the duration (in milliseconds): ");
+    printf(ANSIC_WHITE "Enter the duration (in milliseconds): " ANSIC_RESET);
     scanf("%d", &newFrame.duration);
     clearInputBuffer();
-    printf("Enter the name of the frame: ");
+    printf(ANSIC_WHITE "Enter the name of the frame: " ANSIC_RESET);
     fgets(newFrame.name, sizeof(newFrame.name), stdin);
     newFrame.name[strcspn(newFrame.name, "\n")] = '\0'; // Remove newline if present
 
     // Check if frame name already exists
     if (findFrame(*frameList, newFrame.name))
     {
-        printf(ANSI_COLOR_RED "Frame with this name already exists. Please choose a different name.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_RED_BRIGHT "Frame with this name already exists. Please choose a different name.\n" ANSIC_RESET);
         return;
     }
 
@@ -133,30 +160,30 @@ void addFrame(FrameNode** frameList)
     FILE* file = fopen(newFrame.path, "r");
     if (!file)
     {
-        printf(ANSI_COLOR_RED "Image file does not exist. Please check the path and try again.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_RED_BRIGHT "Image file does not exist. Please check the path and try again.\n" ANSIC_RESET);
         return;
     }
     fclose(file);
 
     insertFrame(frameList, newFrame);  // Insert new frame into linked list
-    printf(ANSI_COLOR_GREEN "Frame added successfully.\n" ANSI_COLOR_RESET);
+    printf(ANSIC_GREEN_BRIGHT "Frame added successfully.\n" ANSIC_RESET);
 }
 
 // Function to remove a frame from the linked list
 void removeFrame(FrameNode** frameList)
 {
     char name[20];
-    printf("Enter the name of the frame to remove: ");
+    printf(ANSIC_WHITE "Enter the name of the frame to remove: " ANSIC_RESET);
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
     if (deleteFrame(frameList, name))  // Attempt to delete frame by name
     {
-        printf(ANSI_COLOR_GREEN "Frame removed successfully.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_GREEN_BRIGHT "Frame removed successfully.\n" ANSIC_RESET);
     }
     else
     {
-        printf(ANSI_COLOR_RED "Frame not found.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_RED_BRIGHT "Frame not found.\n" ANSIC_RESET);
     }
 }
 
@@ -165,16 +192,16 @@ void changeFramePosition(FrameNode** frameList)
 {
     char name[20];
     int newPosition;
-    printf("Enter the name of the frame to move: ");
+    printf(ANSIC_WHITE "Enter the name of the frame to move: " ANSIC_RESET);
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
-    printf("Enter the new position: ");
+    printf(ANSIC_WHITE "Enter the new position: " ANSIC_RESET);
     while (scanf("%d", &newPosition) != 1)
     {
-        printf(ANSI_COLOR_RED "Invalid input. Please enter a valid position.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_RED_BRIGHT "Invalid input. Please enter a valid position.\n" ANSIC_RESET);
         clearInputBuffer();
-        printf("Enter the new position: ");
+        printf(ANSIC_WHITE "Enter the new position: " ANSIC_RESET);
     }
     clearInputBuffer();
 
@@ -186,16 +213,16 @@ void changeFrameDuration(FrameNode** frameList)
 {
     char name[20];
     int newDuration;
-    printf("Enter the name of the frame to change duration: ");
+    printf(ANSIC_WHITE "Enter the name of the frame to change duration: " ANSIC_RESET);
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
 
-    printf("Enter the new duration (in milliseconds): ");
+    printf(ANSIC_WHITE "Enter the new duration (in milliseconds): " ANSIC_RESET);
     while (scanf("%d", &newDuration) != 1)
     {
-        printf(ANSI_COLOR_RED "Invalid input. Please enter a valid duration.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_RED_BRIGHT "Invalid input. Please enter a valid duration.\n" ANSIC_RESET);
         clearInputBuffer();
-        printf("Enter the new duration (in milliseconds): ");
+        printf(ANSIC_WHITE "Enter the new duration (in milliseconds): " ANSIC_RESET);
     }
     clearInputBuffer();
 
@@ -206,25 +233,25 @@ void changeFrameDuration(FrameNode** frameList)
 void changeAllDurations(FrameNode** frameList)
 {
     int newDuration;
-    printf("Enter the new duration for all frames (in milliseconds): ");
+    printf(ANSIC_WHITE "Enter the new duration for all frames (in milliseconds): " ANSIC_RESET);
     while (scanf("%d", &newDuration) != 1)
     {
-        printf(ANSI_COLOR_RED "Invalid input. Please enter a valid duration.\n" ANSI_COLOR_RESET);
+        printf(ANSIC_RED_BRIGHT "Invalid input. Please enter a valid duration.\n" ANSIC_RESET);
         clearInputBuffer();
-        printf("Enter the new duration for all frames (in milliseconds): ");
+        printf(ANSIC_WHITE "Enter the new duration for all frames (in milliseconds): " ANSIC_RESET);
     }
     clearInputBuffer();
 
     changeAllFrameTimes(*frameList, newDuration);  // Update all frame durations in linked list
-    printf(ANSI_COLOR_GREEN "All frame durations updated successfully.\n" ANSI_COLOR_RESET);
+    printf(ANSIC_GREEN_BRIGHT "All frame durations updated successfully.\n" ANSIC_RESET);
 }
 
 // Function to print all frames in the linked list
 void printFrames(FrameNode* frameList)
 {
-    printf(ANSI_COLOR_YELLOW "Frames in the GIF:\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_MAGENTA "Name\t\tPath\t\t\tDuration (ms)\n" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_MAGENTA "-------------------------------------------------------------\n" ANSI_COLOR_RESET);
+    printf(ANSIC_COLOR_YELLOW "Frames in the GIF:\n" ANSIC_RESET);
+    printf(ANSIC_COLOR_MAGENTA "Name\t\tPath\t\t\tDuration (ms)\n" ANSIC_RESET);
+    printf(ANSIC_COLOR_MAGENTA "-------------------------------------------------------------\n" ANSIC_RESET);
     printFramesList(frameList);  // Call function to print frames from linked list
 }
 
@@ -233,4 +260,73 @@ void clearInputBuffer()
 {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// Function to save the current project to a file
+void saveProject(FrameNode* frameList)
+{
+    char filename[100];
+    printf(ANSIC_WHITE "Enter the filename to save the project: " ANSIC_RESET);
+    fgets(filename, sizeof(filename), stdin);
+    filename[strcspn(filename, "\n")] = '\0'; // Remove newline if present
+
+    FILE* file = fopen(filename, "w");
+    if (!file)
+    {
+        printf(ANSIC_RED_BRIGHT "Error opening file for writing.\n" ANSIC_RESET);
+        return;
+    }
+
+    FrameNode* current = frameList;
+    while (current)
+    {
+        fprintf(file, "%s;%s;%d\n", current->frame.name, current->frame.path, current->frame.duration);
+        current = current->next;
+    }
+
+    fclose(file);
+    printf(ANSIC_GREEN_BRIGHT "Project saved successfully.\n" ANSIC_RESET);
+}
+
+// Function to load a project from a file
+void loadProject(FrameNode** frameList)
+{
+    char filename[100];
+    printf(ANSIC_WHITE "Enter the filename to load the project: " ANSIC_RESET);
+    fgets(filename, sizeof(filename), stdin);
+    filename[strcspn(filename, "\n")] = '\0'; // Remove newline if present
+
+    FILE* file = fopen(filename, "r");
+    if (!file)
+    {
+        printf(ANSIC_RED_BRIGHT "Error opening file for reading.\n" ANSIC_RESET);
+        return;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file))
+    {
+        Frame newFrame;
+        sscanf(line, "%[^;];%[^;];%d", newFrame.name, newFrame.path, &newFrame.duration);
+        insertFrame(frameList, newFrame);
+    }
+
+    fclose(file);
+    printf(ANSIC_GREEN_BRIGHT "Project loaded successfully.\n" ANSIC_RESET);
+}
+
+// Function to free all nodes in the linked list
+void clearFrameList(FrameNode** frameList)
+{
+    FrameNode* current = *frameList;
+    FrameNode* next;
+
+    while (current != NULL)
+    {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+
+    *frameList = NULL;
 }

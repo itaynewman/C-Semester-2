@@ -4,7 +4,7 @@
 
 // applies the style to the text by setting up color codes
 static void apply_style(const char* style, const char** prefix, const char** dot_color, const char** text_color, const char** bright_color) {
-    *prefix = "• ";
+    *prefix = "ï¿½ ";
     *dot_color = ANSIC_WHITE;
     *text_color = ANSIC_WHITE;
     *bright_color = ANSIC_WHITE;
@@ -201,7 +201,7 @@ const char* npicker(const char* style, const char* title, const char** options, 
         // Print options
         for (int i = 0; i < num_options; i++) {
             if (i == selected) {
-                printf("%s  » %s%s\n", dot_color, text_color, options[i]);
+                printf("%s  Â» %s%s\n", dot_color, text_color, options[i]);
             }
             else {
                 printf("%s    %s\n", text_color, options[i]);
@@ -264,4 +264,36 @@ const char* npicker(const char* style, const char* title, const char** options, 
 
     // Default return
     return NULL;
+}
+
+void ninput(const char* style, const char* prompt, char* buffer, size_t buffer_size) {
+    if (!prompt || !buffer) {
+        fprintf(stderr, "Error: prompt or buffer is NULL\n");
+        return;
+    }
+
+    style = (!style || !*style) ? "info" : style;
+
+    const char* prefix, * dot_color, * text_color, * bright_color;
+    apply_style(style, &prefix, &dot_color, &text_color, &bright_color);
+
+    char* formatted_prompt = format_text(prompt, text_color, bright_color);
+    if (!formatted_prompt) return;
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8); // Set the console output code page to UTF-8
+#endif
+
+    printf("%s? %s%s%s: ", dot_color, text_color, formatted_prompt, bright_color);
+    free(formatted_prompt);
+
+    if (fgets(buffer, buffer_size, stdin) != NULL) {
+        // Remove trailing newline if present
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len - 1] == '\n') {
+            buffer[len - 1] = '\0';
+        }
+    }
+
+    printf(ANSIC_RESET);
 }

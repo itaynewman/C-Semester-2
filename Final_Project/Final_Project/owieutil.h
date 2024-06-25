@@ -45,6 +45,13 @@
 #define ANSIC_BLUE_DOT "\x1b[38;2;135;175;215m"
 #define ANSIC_BLUE "\x1b[38;2;135;175;135m"
 #define ANSIC_BLUE_BRIGHT "\x1b[1;38;2;175;215;135m"
+#define ANSIC_COLOR_RED "\x1b[31m"
+#define ANSIC_COLOR_GREEN "\x1b[32m"
+#define ANSIC_COLOR_YELLOW "\x1b[33m"
+#define ANSIC_COLOR_BLUE "\x1b[34m"
+#define ANSIC_COLOR_MAGENTA "\x1b[35m"
+#define ANSIC_COLOR_CYAN "\x1b[36m"
+#define ANSIC_COLOR_RESET "\x1b[0m"
 
 void nprint_full(const char* style, const char* text, bool clock, const char* end, FILE* file, ...);
 #define nprint(style, text, ...) nprint_full(style, text, false, NULL, NULL, ##__VA_ARGS__)
