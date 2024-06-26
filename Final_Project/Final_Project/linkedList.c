@@ -3,72 +3,92 @@
 #include <string.h>
 #include "linkedList.h"
 
-void insertFrame(FrameNode** head, Frame newFrame) {
+void insertFrame(FrameNode** head, Frame newFrame)
+{
     FrameNode* newNode = (FrameNode*)malloc(sizeof(FrameNode));
-    if (!newNode) {
+    if (!newNode)
+    {
         printf("Memory allocation error\n");
         return;
     }
     newNode->frame = newFrame;
     newNode->next = NULL;
 
-    if (*head == NULL) {
+    if (*head == NULL)
+    {
         *head = newNode;
     }
-    else {
+    else
+    {
         FrameNode* temp = *head;
-        while (temp->next != NULL) {
+        while (temp->next != NULL)
+        {
             temp = temp->next;
         }
         temp->next = newNode;
     }
 }
 
-
-int deleteFrame(FrameNode** head, char* name) {
+int deleteFrame(FrameNode** head, char* name)
+{
+    char stop = "";
     FrameNode* temp = *head, * prev = NULL;
 
-    while (temp != NULL && strcmp(temp->frame.name, name) != 0) {
+    while (temp != NULL && strcmp(temp->frame.name, name) != 0)
+    {
         prev = temp;
         temp = temp->next;
     }
 
-    if (temp == NULL) {
+    if (temp == NULL)
+    {
         return 0;
     }
 
-    if (prev == NULL) {
+    if (prev == NULL)
+    {
         *head = temp->next;
     }
-    else {
+    else
+    {
         prev->next = temp->next;
     }
 
     free(temp);
+    scanf("%c", &stop);
     return 1;
 }
 
-FrameNode* findFrame(FrameNode* head, char* name) {
+FrameNode* findFrame(FrameNode* head, char* name)
+{
+    char stop = "";
     FrameNode* temp = head;
 
-    while (temp != NULL) {
-        if (strcmp(temp->frame.name, name) == 0) {
+    while (temp != NULL)
+    {
+        if (strcmp(temp->frame.name, name) == 0)
+        {
             return temp;
         }
         temp = temp->next;
     }
 
     return NULL;
+    scanf("%c", &stop);
 }
 
-void changeFrameOrder(FrameNode** head, char* name, int newPosition) {
-    if (newPosition <= 0) {
+void changeFrameOrder(FrameNode** head, char* name, int newPosition)
+{
+    char stop = "";
+    if (newPosition <= 0)
+    {
         printf("Invalid position\n");
         return;
     }
 
     FrameNode* frameNode = findFrame(*head, name);
-    if (frameNode == NULL) {
+    if (frameNode == NULL)
+    {
         printf("Frame not found\n");
         return;
     }
@@ -79,54 +99,73 @@ void changeFrameOrder(FrameNode** head, char* name, int newPosition) {
     FrameNode* temp = *head, * prev = NULL;
     int count = 1;
 
-    while (temp != NULL && count < newPosition) {
+    while (temp != NULL && count < newPosition)
+    {
         prev = temp;
         temp = temp->next;
         count++;
     }
 
     FrameNode* newNode = (FrameNode*)malloc(sizeof(FrameNode));
-    if (!newNode) {
+    if (!newNode)
+    {
         printf("Memory allocation error\n");
         return;
     }
     newNode->frame = frame;
     newNode->next = temp;
 
-    if (prev == NULL) {
+    if (prev == NULL)
+    {
         *head = newNode;
     }
-    else {
+    else
+    {
         prev->next = newNode;
     }
 
     printf("Frame position updated successfully.\n");
+    scanf("%c", &stop);
 }
 
-void changeFrameTime(FrameNode* head, char* name, int newDuration) {
+void changeFrameTime(FrameNode* head, char* name, int newDuration)
+{
     FrameNode* frameNode = findFrame(head, name);
-    if (frameNode != NULL) {
+    char stop = "";
+    if (frameNode != NULL)
+    {
         frameNode->frame.duration = newDuration;
     }
-    else {
+    else
+    {
         printf("Frame not found\n");
     }
+    scanf("%c", &stop);
 }
 
-void changeAllFrameTimes(FrameNode* head, int newDuration) {
+void changeAllFrameTimes(FrameNode* head, int newDuration)
+{
     FrameNode* temp = head;
+    char stop = "";
 
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         temp->frame.duration = newDuration;
         temp = temp->next;
     }
+    scanf("%c", &stop);
 }
 
-void printFramesList(FrameNode* head) {
+void printFramesList(FrameNode* head)
+{
     FrameNode* temp = head;
+    char stop = "";
 
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         printf("%s\t\t%s\t\t%d\n", temp->frame.name, temp->frame.path, temp->frame.duration);
         temp = temp->next;
     }
+
+    scanf("%c", &stop);
 }

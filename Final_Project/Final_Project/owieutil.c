@@ -133,7 +133,6 @@ void nprint_full(const char* style, const char* text, bool clock, const char* en
     free(formatted_text);  // free the memory allocated for formatted text
 }
 
-// interactive option picker that displays a menu and lets the user choose an option
 int npicker(const char* style, const char* title, const char** options, int num_options) {
 #ifdef _WIN32
     // Get a handle to the console output device
@@ -193,6 +192,13 @@ int npicker(const char* style, const char* title, const char** options, int num_
 #endif
 
     while (1) {
+#ifdef _WIN32
+        // Clear console
+        SetConsoleCursorPosition(hConsole, (COORD) { 0, 0 });
+#else
+        printf("\033[H\033[J"); // Clear console for Linux
+#endif
+
         // Print title
         char* formatted_title = format_text(title, text_color, bright_color);
         printf("%s%s:\n\n", bright_color, formatted_title);
@@ -228,9 +234,6 @@ int npicker(const char* style, const char* title, const char** options, int num_
         case '\n': // Enter (Linux)
 #ifdef _WIN32
             // Clear console
-            system("cls");
-
-            // Restore original cursor position
             SetConsoleCursorPosition(hConsole, originalCsbi.dwCursorPosition);
 
             // Free allocated buffer memory
@@ -249,14 +252,6 @@ int npicker(const char* style, const char* title, const char** options, int num_
             // Ignore other keys
             break;
         }
-
-#ifdef _WIN32
-        // Clear console and set original screen buffer
-        WriteConsoleOutput(hConsole, buffer, bufferSize, bufferCoord, &readRegion);
-#else
-        // Clear console for Linux
-        printf("\033[H\033[J");
-#endif
     }
 
 #ifdef _WIN32
