@@ -5,10 +5,12 @@
 
 void insertFrame(FrameNode** head, Frame newFrame)
 {
+    char stop = "";
     FrameNode* newNode = (FrameNode*)malloc(sizeof(FrameNode));
     if (!newNode)
     {
         printf("Memory allocation error\n");
+        scanf("%c", &stop);
         return;
     }
     newNode->frame = newFrame;

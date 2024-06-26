@@ -47,6 +47,7 @@ int main()
 
 	//printFirstMenu();
 	mainChoice = npicker("purple", ANSIC_PURPLE_BRIGHT "Welcome to Magshimim Movie Maker!\nselect an option" ANSIC_COLOR_RESET, firstOptions, 2);
+    printf("\n\n\n\n\n\n\n\n");
     //if (scanf("%d", &mainChoice) != 1)
     //{
         //printf(ANSIC_RED_BRIGHT "Invalid input. Exiting...\n" ANSIC_RESET);
@@ -151,7 +152,6 @@ void addFrame(FrameNode** frameList)
 {
     Frame newFrame;
 	char stop = "";
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf(ANSIC_WHITE "Enter the path of the image: " ANSIC_RESET);
     fgets(newFrame.path, sizeof(newFrame.path), stdin);
     newFrame.path[strcspn(newFrame.path, "\n")] = '\0'; // Remove newline if present
@@ -188,7 +188,6 @@ void addFrame(FrameNode** frameList)
 void removeFrame(FrameNode** frameList)
 {
     char name[20];
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n");
     printf(ANSIC_WHITE "Enter the name of the frame to remove: " ANSIC_RESET);
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
@@ -208,7 +207,6 @@ void changeFramePosition(FrameNode** frameList)
 {
     char name[20];
     int newPosition;
-    printf("\n\n\n\n\n\n\n\n\n\n\n");
     printf(ANSIC_WHITE "Enter the name of the frame to move: " ANSIC_RESET);
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
@@ -230,7 +228,6 @@ void changeFrameDuration(FrameNode** frameList)
 {
     char name[20];
     int newDuration;
-    printf("\n\n\n\n\n\n\n\n\n\n");
     printf(ANSIC_WHITE "Enter the name of the frame to change duration: " ANSIC_RESET);
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Remove newline if present
@@ -251,7 +248,6 @@ void changeFrameDuration(FrameNode** frameList)
 void changeAllDurations(FrameNode** frameList)
 {
     int newDuration;
-    printf("\n\n\n\n\n\n\n\n\n");
     printf(ANSIC_WHITE "Enter the new duration for all frames (in milliseconds): " ANSIC_RESET);
     while (scanf("%d", &newDuration) != 1)
     {
@@ -268,7 +264,6 @@ void changeAllDurations(FrameNode** frameList)
 // Function to print all frames in the linked list
 void printFrames(FrameNode* frameList)
 {
-    printf("\n\n\n\n\n\n\n\n");
     printf(ANSIC_COLOR_YELLOW "Frames in the GIF:\n" ANSIC_RESET);
     printf(ANSIC_COLOR_MAGENTA "Name\t\tPath\t\t\tDuration (ms)\n" ANSIC_RESET);
     printf(ANSIC_COLOR_MAGENTA "-------------------------------------------------------------\n" ANSIC_RESET);
